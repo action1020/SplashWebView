@@ -25,6 +25,6 @@ public class SplashActivity extends AppCompatActivity {
 
         finish();
 
-        Log.d(this.toString(), "onCreate: finished.");
+        Log.d(this.toString(), "onCreate: finished..");
     }
 }
