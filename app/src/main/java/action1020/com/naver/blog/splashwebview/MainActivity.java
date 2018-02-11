@@ -1,9 +1,7 @@
 package action1020.com.naver.blog.splashwebview;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -13,13 +11,13 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private WebView myWebView;
+    private long waitForToast = 0;
+    private int duration = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toast.makeText(this, "이영호님의 개인 네이버가 로딩되었습니다!", Toast.LENGTH_SHORT).show();
 
         myWebView = findViewById(R.id.webView);
         myWebView.getSettings().setJavaScriptEnabled(true);
@@ -48,28 +46,15 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         if ( myWebView.isFocused() && myWebView.canGoBack() ){
-
             myWebView.goBack();
-
         }else{
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            builder.setIcon(android.R.drawable.ic_dialog_alert);
-            builder.setTitle("이영호님의 네이버");
-            builder.setMessage("프로그램을 종료하시겠습니까?");
-
-            builder.setPositiveButton("네", new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-
-            });
-
-            builder.setNegativeButton("아니요", null);
-            builder.show();
+            if ( System.currentTimeMillis() > waitForToast + duration ){
+                waitForToast = System.currentTimeMillis();
+                Toast.makeText(this, "'뒤로' 버튼 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            }else {
+                finish();
+            }
 
         }
 
